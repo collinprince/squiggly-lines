@@ -20,11 +20,21 @@ class Color {
 
     bool operator!=(const Color& rhs) const { return !(*this == rhs); }
 
+    const Color operator/(int rhs) const {
+        return Color(r_ / rhs, g_ / rhs, b_ / rhs);
+    }
+
+    friend Color const average(Color const& l, Color const& r);
+
    private:
     int r_;
     int g_;
     int b_;
 };
+
+Color const average(Color const& l, Color const& r) {
+    return Color((l.r_ + r.r_) / 2, (l.g_ + r.g_) / 2, (l.b_ + r.g_) / 2);
+}
 
 static Color const Red = Color(255, 0, 0);
 static Color const Green = Color(0, 255, 0);

@@ -59,7 +59,13 @@ class Line {
             nextPoint = computeNextPoint();
             ++maxDepth;
         }
+        // first attempt at averaged shading to make lines smoother
+        if (currentPoint_.x() == nextPoint.x() + 1 ||
+            currentPoint_.x() == nextPoint.x() - 1) {
+            row[currentPoint_.x()] = average(color_, defaultColor);
+        }
         currentPoint_ = nextPoint;
+
         row[nextPoint.x()] = color_;
     }
 
