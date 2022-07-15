@@ -10,7 +10,7 @@
 
 using ColorRow = std::vector<Color>;
 class Line;
-bool isLineCollidingWithOtherLine(const Line& l,
+bool isLineCollidingWithOtherLine(const Point2& nextPoint,
                                   const std::vector<Line>& lines);
 
 void resetColorRow(ColorRow& row, const Color& defaultColor) {
@@ -48,14 +48,16 @@ class Line {
         return Point2(nextX, nextY);
     }
 
-    void updatePoint(ColorRow& row, const std::vector<Line>& lines,
-                     Color const& defaultColor) {
+    void updatePointAndColorNextRow(ColorRow& row,
+                                    const std::vector<Line>& lines,
+                                    Color const& defaultColor) {
         Point2 nextPoint(computeNextPoint());
         // keep updating till we don't overwrite another color
         int maxDepth = 0;
 
         // try to keep lines from colliding while keeping paths random
-        while (isLineCollidingWithOtherLine(*this, lines) && maxDepth < 50) {
+        while (isLineCollidingWithOtherLine(nextPoint, lines) &&
+               maxDepth < 50) {
             nextPoint = computeNextPoint();
             ++maxDepth;
         }
@@ -76,17 +78,18 @@ class Line {
     int maxY_;
 };
 
-bool isLineCollidingWithOtherLine(const Line& l,
+bool isLineCollidingWithOtherLine(const Point2& nextPoint,
                                   const std::vector<Line>& lines) {
-    return std::any_of(lines.begin(), lines.end(), [&l, &lines](auto const& r) {
-        if (&l == &r) {
-            return false;
-        }
-        if (l.currentPoint() == r.currentPoint()) {
-            return true;
-        }
-        return false;
-    });
+    return std::any_of(lines.begin(), lines.end(),
+                       [&nextPoint, &lines](auto const& r) {
+                           if (&nextPoint == &r.currentPoint()) {
+                               return false;
+                           }
+                           if (nextPoint == r.currentPoint()) {
+                               return true;
+                           }
+                           return false;
+                       });
 }
 
 #endif

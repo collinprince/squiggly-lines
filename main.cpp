@@ -22,10 +22,12 @@ int main() {
     ColorRow colorRow(Width, defaultColor);
     std::vector<Line> lines;
 
+    int const segment = (Width / NumLines);
+
     // create lines
     for (int i = 0; i < NumLines; ++i) {
         const int mod = i % NumColors;
-        Point2 const startingPoint((Width / NumLines) * i, 0);
+        Point2 const startingPoint((segment * i) + segment / 2, 0);
         Color color;
         if (mod == 0) {
             color = Red;
@@ -36,7 +38,6 @@ int main() {
         }
         lines.emplace_back(startingPoint, color, Width - 1, Height - 1);
     }
-    std::cerr << lines.size() << '\n';
 
     for (int i = 0; i < Height; ++i) {
         // draw each color in the row
@@ -47,7 +48,7 @@ int main() {
         resetColorRow(colorRow, defaultColor);
         // update position of each line for the next row
         for (auto& l : lines) {
-            l.updatePoint(colorRow, lines, defaultColor);
+            l.updatePointAndColorNextRow(colorRow, lines, defaultColor);
         }
     }
 }
