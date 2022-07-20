@@ -2,6 +2,7 @@
 #define COLOR_HPP
 
 #include <string>
+#include <vector>
 
 #include "point.hpp"
 
@@ -32,9 +33,9 @@ class Color {
     int b_;
 };
 
-Color const average(Color const& l, Color const& r) {
-    return Color((l.r_ + r.r_) / 2, (l.g_ + r.g_) / 2, (l.b_ + r.g_) / 2);
-}
+using ColorRow = std::vector<Color>;
+Color const average(Color const& l, Color const& r);
+void resetColorRow(ColorRow& row, const Color& defaultColor);
 
 static Color const Red = Color(255, 0, 0);
 static Color const Green = Color(0, 255, 0);

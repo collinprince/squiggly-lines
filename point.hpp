@@ -10,6 +10,9 @@ class Point2 {
     int const x() const { return x_; }
     int const y() const { return y_; }
 
+    void setX(int x) { x_ = x; }
+    void setY(int y) { y_ = y; }
+
     inline bool operator==(const Point2& rhs) const {
         return this->x_ == rhs.x_ && this->y_ == rhs.y_;
     }

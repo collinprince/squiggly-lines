@@ -8,16 +8,9 @@
 #include "color.hpp"
 #include "point.hpp"
 
-using ColorRow = std::vector<Color>;
 class Line;
 bool isLineCollidingWithOtherLine(const Point2& nextPoint,
                                   const std::vector<Line>& lines);
-
-void resetColorRow(ColorRow& row, const Color& defaultColor) {
-    for (auto& r : row) {
-        r = std::move(Color(defaultColor));
-    }
-}
 
 class Line {
    public:
@@ -62,13 +55,11 @@ class Line {
             ++maxDepth;
         }
         // first attempt at averaged shading to make lines smoother
+        Color shadingColor(average(color_, defaultColor));
         if (currentPoint_.x() == nextPoint.x() + 1 ||
             currentPoint_.x() == nextPoint.x() - 1) {
-            row[currentPoint_.x()] = average(color_, defaultColor);
+            row[currentPoint_.x()] = shadingColor;
         }
-        currentPoint_ = nextPoint;
-
-        row[nextPoint.x()] = color_;
     }
 
    private:
