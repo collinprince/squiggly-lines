@@ -2,8 +2,10 @@
 #include <memory>
 #include <vector>
 
+#include "graph.hpp"
 #include "lines/linearLine.hpp"
 #include "lines/quadraticLine.hpp"
+#include "shapes/circle.hpp"
 
 static int const Width = 500;
 static int const Height = 500;
@@ -15,6 +17,7 @@ int main() {
     // seed random generator
     srand(time(NULL));
 
+    Graph graph(Width - 1, Height - 1);
     ImageSettings is(Width - 1, Height - 1, 20, 50);
 
     std::cout << "P3\n";
@@ -31,20 +34,23 @@ int main() {
 
     // create math lines
     for (int i = 0; i < NumLines; ++i) {
-        const int mod = i % NumColors;
+        // const int mod = i % NumColors;
         Point2 const startingPoint((segment * i) + segment / 2, 0);
-        Color color;
-        if (mod == 0) {
-            color = Red;
-        } else if (mod == 1) {
-            color = Green;
-        } else {
-            color = Blue;
-        }
-        color = Color(rand() % 256, rand() % 256, rand() % 256);
+        // Color color;
+        // if (mod == 0) {
+        //     color = Red;
+        // } else if (mod == 1) {
+        //     color = Green;
+        // } else {
+        //     color = Blue;
+        // }
+        Color color(rand() % 256, rand() % 256, rand() % 256);
         lines.emplace_back(
             std::make_unique<QuadraticLine>(startingPoint, color));
     }
+
+    Circle::GraphPoint point(0.5, 0.5);
+    Circle circle(graph, Green, point, 0.2);
 
     for (int i = 0; i < Height; i += is.changeInY()) {
         // update line on each iteration
@@ -61,6 +67,9 @@ int main() {
             for (auto& l : lines) {
                 l->colorRowForLine(j, colorRow, is);
             }
+
+            // color the circle
+            circle.colorRowForShape(j, colorRow, is);
             // draw each color in the row
             for (auto const& c : colorRow) {
                 std::cout << c.toPPMLine();

@@ -1,6 +1,6 @@
 #include "quadraticLine.hpp"
 
-QuadraticLine::QuadraticLine(Point2 const& startPoint, Color const& color)
+QuadraticLine::QuadraticLine(Point2<int> const& startPoint, Color const& color)
     : Line(startPoint, color), sign_(1), amplitude_(1 / 50.0) {}
 
 double QuadraticLine::formulaForX(int y, ImageSettings const& is) {
@@ -12,13 +12,13 @@ double QuadraticLine::formulaForX(int y, ImageSettings const& is) {
     if (x <= 0) {
         x = 1;  // made this 1 because the reflection was sort of off when
         // it was 0
-        startPoint_ = Point2(x, y);
+        startPoint_ = Point2<int>(x, y);
         endPoint_.setX(x);
         sign_ = -1;
 
     } else if (x >= is.maxX()) {
         x = is.maxX();
-        startPoint_ = Point2(x, y);
+        startPoint_ = Point2<int>(x, y);
         endPoint_.setX(x);
         sign_ = 1;
     }

@@ -3,23 +3,23 @@
 
 #include <vector>
 
+template <typename T>
 class Point2 {
    public:
-    explicit Point2(int x, int y) : x_(x), y_(y) {}
+    explicit Point2(T x, T y) : x_(x), y_(y) {}
 
-    int const x() const { return x_; }
-    int const y() const { return y_; }
+    T const x() const { return x_; }
+    T const y() const { return y_; }
 
-    void setX(int x) { x_ = x; }
-    void setY(int y) { y_ = y; }
+    void setX(T x) { x_ = x; }
+    void setY(T y) { y_ = y; }
 
     inline bool operator==(const Point2& rhs) const {
         return this->x_ == rhs.x_ && this->y_ == rhs.y_;
     }
 
    private:
-    int x_;
-    int y_;
+    T x_;
+    T y_;
 };
-
 #endif

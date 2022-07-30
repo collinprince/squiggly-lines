@@ -4,7 +4,7 @@
 #include "line.hpp"
 class QuadraticLine : public Line {
    public:
-    QuadraticLine(Point2 const& startPoint, Color const& color);
+    QuadraticLine(Point2<int> const& startPoint, Color const& color);
 
    private:
     int sign_;

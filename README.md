@@ -32,16 +32,23 @@
 
 ### Future Shapes
 
-- add circles, ellipses, squares, etc.
+- add ellipses, squares, etc.
+- add filled versions of shapes
 
 ### Colors
 
 - create code to randomly select from different colors rather than just making every third
   line the same color
 
+### Brush
+
+- make an abstracted brush class that takes in a formula or (x, y) coordinate and "brushes"
+  the desired color onto screen (will allow different line widths, anti-aliasing techniques, etc. to be impl'd)
+
 ### Additional Considerations
 
 - make random starting points for lines
 - randomly add lines as program runs
 - randomly remove lines as program runs
+- randomly add shapes as program runs
 - create code for detecting line collisions or forcing line collisions

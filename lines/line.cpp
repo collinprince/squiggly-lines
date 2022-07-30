@@ -6,14 +6,14 @@
 #include <cmath>
 #include <iostream>
 
-Line::Line(Point2 const& startPoint, Color const& color)
+Line::Line(Point2<int> const& startPoint, Color const& color)
     : startPoint_(startPoint), endPoint_(startPoint), color_(color) {}
 
 void Line::updateNextPoint(ImageSettings const& is) {
     // first update endPoint_ to be new startPoint_
     startPoint_ = endPoint_;
 
-    Point2 nextPoint(getRandomNextPoint(is));
+    Point2<int> nextPoint(getRandomNextPoint(is));
     // map this line as a straight line with formula: x = slope_ * y +
     // nextPoint.x()
 
@@ -46,19 +46,26 @@ void Line::adaptedXiaolinWuAttempt(int y, ColorRow& colorRow,
         if (x - floorX < 0.01) {
             colorRow[floorX] = color_;
         } else {
-            colorRow[floorX] = constrain(color_ * (1 / (x - floorX)));
+            colorRow[floorX] = constrain(
+                average(colorRow[floorX], color_ * (1 / (x - floorX))));
         }
     }
     if (ceilX <= is.maxX()) {
         if (x - floorX > 0.99) {
             colorRow[ceilX] = color_;
         } else {
-            colorRow[ceilX] = constrain(color_ * (1 / (ceilX - x)));
+            colorRow[ceilX] =
+                constrain(average(colorRow[ceilX], color_ * (1 / (ceilX - x))));
         }
     }
 }
 
-Point2 const Line::getRandomNextPoint(ImageSettings const& is) {
+void Line::aliasedDrawing(int y, ColorRow& colorRow, ImageSettings const& is) {
+    auto x = static_cast<int>(computeXGivenY(y, is));
+    colorRow[x] = color_;
+}
+
+Point2<int> const Line::getRandomNextPoint(ImageSettings const& is) {
     // nextX is in range [-maxChangeInX, +maxChangeInX]
     int nextX = startPoint_.x() + (rand() % (2 * is.maxChangeInX() + 1)) -
                 is.maxChangeInX();

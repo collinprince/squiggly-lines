@@ -6,7 +6,7 @@
 
 class LinearLine : public Line {
    public:
-    explicit LinearLine(Point2 const&, Color const&);
+    explicit LinearLine(Point2<int> const&, Color const&);
 
    private:
     double formulaForX(int y, ImageSettings const& is) override;
