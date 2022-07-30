@@ -1,27 +1,25 @@
 #ifndef MATHLINE_HPP
 #define MATHLINE_HPP
 
-#include "color.hpp"
-#include "imageSettings.hpp"
-#include "point.hpp"
+#include "../color.hpp"
+#include "../imageSettings.hpp"
+#include "../point.hpp"
 
 using ColorRow = std::vector<Color>;
 
-class MathLine {
+class Line {
    public:
-    explicit MathLine(Point2 const& startPoint, Color const& color);
+    explicit Line(Point2 const& startPoint, Color const& color);
     void updateNextPoint(ImageSettings const& is);
     int computeXGivenY(int y, ImageSettings const& is);
     void colorRowForLine(int y, ColorRow& colorRow, ImageSettings const& is);
 
-    void printCurrentAndEndPoint() const;
+    virtual ~Line() = default;
 
    private:
     virtual void afterUpdateNextPoint() {}
-    virtual int formulaForX(int y, ImageSettings const& is);
+    virtual int formulaForX(int y, ImageSettings const& is) = 0;
     Point2 const getRandomNextPoint(ImageSettings const& is);
-
-    double slope_;
 
    protected:
     Point2 startPoint_;

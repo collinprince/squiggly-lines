@@ -1,9 +1,9 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 
-// #include "line.hpp"
-#include "mathLine.hpp"
-#include "quadraticLine.hpp"
+#include "lines/linearLine.hpp"
+#include "lines/quadraticLine.hpp"
 
 static int const Width = 500;
 static int const Height = 500;
@@ -25,7 +25,7 @@ int main() {
     ColorRow colorRow(Width, defaultColor);
     // std::vector<Line> lines;
 
-    std::vector<QuadraticLine> mathLines;
+    std::vector<std::unique_ptr<Line>> lines;
 
     int const segment = (Width / NumLines);
 
@@ -56,25 +56,24 @@ int main() {
         } else {
             color = Blue;
         }
-        mathLines.emplace_back(QuadraticLine(startingPoint, color));
+        lines.emplace_back(
+            std::make_unique<QuadraticLine>(startingPoint, color));
     }
 
     for (int i = 0; i < Height; i += is.changeInY()) {
         // update line on each iteration
         std::cerr << i << '\n';
         int count = 0;
-        for (auto& l : mathLines) {
-            l.updateNextPoint(is);
-            std::cerr << count << ": ";
-            l.printCurrentAndEndPoint();
+        for (auto& l : lines) {
+            l->updateNextPoint(is);
             ++count;
         }
 
         int curMaxY = std::min(i + is.changeInY(), Height);
         for (int j = i; j < curMaxY; ++j) {
             // color each line in the row
-            for (auto& l : mathLines) {
-                l.colorRowForLine(j, colorRow, is);
+            for (auto& l : lines) {
+                l->colorRowForLine(j, colorRow, is);
             }
             // draw each color in the row
             for (auto const& c : colorRow) {

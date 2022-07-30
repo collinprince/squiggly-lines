@@ -6,6 +6,6 @@ Color const average(Color const& l, Color const& r) {
 
 void resetColorRow(ColorRow& row, const Color& defaultColor) {
     for (auto& r : row) {
-        r = std::move(Color(defaultColor));
+        r = Color(defaultColor);
     }
 }

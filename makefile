@@ -1,23 +1,30 @@
 CC = g++
-CFLAGS = -std=c++17
+CFLAGS = -std=c++17 -Wall
 
-MAIN_DEPS = mathLine.o quadraticLine.hpp
-MATHLINE_DEPS = color.o mathLine.hpp mathLine.cpp imageSettings.hpp
+SQUIGGLY_DEPS = main.o $(MAIN_DEPS)
+MAIN_DEPS = line.o quadraticLine.o linearLine.o color.o
+LINE_DEPS = color.o lines/line.hpp lines/line.cpp imageSettings.hpp
 COLOR_DEPS = color.hpp color.cpp
 
 
 
 squiggly: main.o
-	$(CC) -o squiggly main.o color.o mathLine.o
+	$(CC) -o squiggly $(SQUIGGLY_DEPS)
 
 main.o: $(MAIN_DEPS)
-	$(CC) $(CFLAGS) -c main.cpp
+	$(CC) $(CFLAGS) -c main.cpp 
 
-mathLine.o: $(MATHLINE_DEPS)
-	$(CC) $(CFLAGS) -c mathLine.cpp
+linearLine.o: line.o lines/linearLine.hpp
+	$(CC) $(CFLAGS) -c lines/linearLine.cpp
+
+quadraticLine.o: line.o lines/quadraticLine.hpp
+	$(CC) $(CFLAGS) -c lines/quadraticLine.cpp 
+
+line.o: $(LINE_DEPS)
+	$(CC) $(CFLAGS) -c lines/line.cpp 
 
 color.o: $(COLOR_DEPS)
 	$(CC) $(CFLAGS) -c color.cpp
 
 clean:
-	rm -f squiggly main.o mathLine.o color.o
+	rm -f squiggly main.o line.o color.o

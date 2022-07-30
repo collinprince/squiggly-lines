@@ -6,11 +6,8 @@
 
 ## TODO
 
-### clean up MathLine/QudraticLine code
+### Line abstract base class
 
-- likely need to turn MathLine into a (possibly abstract) base class and create
-  a class specifically for linear graphing (which is currently the default behavior
-  provided in MathLine which QuadraticLine overrides)
 - create beforeUpdatePosition virtual function to accommodate derived
   classes which may wish to perform manipulations on the object before
   updating the start/end points
