@@ -11,15 +11,18 @@ class Line {
    public:
     explicit Line(Point2 const& startPoint, Color const& color);
     void updateNextPoint(ImageSettings const& is);
-    int computeXGivenY(int y, ImageSettings const& is);
+    double computeXGivenY(int y, ImageSettings const& is);
     void colorRowForLine(int y, ColorRow& colorRow, ImageSettings const& is);
 
     virtual ~Line() = default;
 
    private:
     virtual void afterUpdateNextPoint() {}
-    virtual int formulaForX(int y, ImageSettings const& is) = 0;
+    virtual double formulaForX(int y, ImageSettings const& is) = 0;
     Point2 const getRandomNextPoint(ImageSettings const& is);
+
+    void adaptedXiaolinWuAttempt(int y, ColorRow& colorRow,
+                                 ImageSettings const& is);
 
    protected:
     Point2 startPoint_;

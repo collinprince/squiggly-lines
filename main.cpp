@@ -15,34 +15,19 @@ int main() {
     // seed random generator
     srand(time(NULL));
 
-    ImageSettings is(Width - 1, Height - 1, 5, 50);
+    ImageSettings is(Width - 1, Height - 1, 20, 50);
 
     std::cout << "P3\n";
     std::cout << Width << ' ' << Height << '\n';
     std::cout << MaxColor << "\n";
 
-    Color const defaultColor = White;
+    Color const defaultColor = Black;
     ColorRow colorRow(Width, defaultColor);
     // std::vector<Line> lines;
 
     std::vector<std::unique_ptr<Line>> lines;
 
     int const segment = (Width / NumLines);
-
-    // create lines
-    // for (int i = 0; i < NumLines; ++i) {
-    //     const int mod = i % NumColors;
-    //     Point2 const startingPoint((segment * i) + segment / 2, 0);
-    //     Color color;
-    //     if (mod == 0) {
-    //         color = Red;
-    //     } else if (mod == 1) {
-    //         color = Green;
-    //     } else {
-    //         color = Blue;
-    //     }
-    //     lines.emplace_back(startingPoint, color, Width - 1, Height - 1);
-    // }
 
     // create math lines
     for (int i = 0; i < NumLines; ++i) {
@@ -56,6 +41,7 @@ int main() {
         } else {
             color = Blue;
         }
+        color = Color(rand() % 256, rand() % 256, rand() % 256);
         lines.emplace_back(
             std::make_unique<QuadraticLine>(startingPoint, color));
     }

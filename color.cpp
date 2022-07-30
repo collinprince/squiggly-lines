@@ -9,3 +9,7 @@ void resetColorRow(ColorRow& row, const Color& defaultColor) {
         r = Color(defaultColor);
     }
 }
+
+Color constrain(Color const& c) {
+    return Color(std::min(c.r_, 255), std::min(c.g_, 255), std::min(c.b_, 255));
+}

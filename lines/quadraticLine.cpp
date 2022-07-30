@@ -3,12 +3,12 @@
 QuadraticLine::QuadraticLine(Point2 const& startPoint, Color const& color)
     : Line(startPoint, color), sign_(1), amplitude_(1 / 50.0) {}
 
-int QuadraticLine::formulaForX(int y, ImageSettings const& is) {
+double QuadraticLine::formulaForX(int y, ImageSettings const& is) {
     // treat startPoint_ and endPoint_ as y intercepts for quadratic formula
     // x = a*y^2 + b*y + c -> x = (y - y0) * (y - y1) + x0
-    auto x = static_cast<int>(sign_ * amplitude_ * (y - startPoint_.y()) *
-                              (y - endPoint_.y())) +
-             startPoint_.x();
+    auto x =
+        (sign_ * amplitude_ * (y - startPoint_.y()) * (y - endPoint_.y())) +
+        startPoint_.x();
     if (x <= 0) {
         x = 1;  // made this 1 because the reflection was sort of off when
         // it was 0

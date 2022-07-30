@@ -9,7 +9,7 @@ class QuadraticLine : public Line {
    private:
     int sign_;
     double amplitude_;
-    int formulaForX(int y, ImageSettings const& is) override;
+    double formulaForX(int y, ImageSettings const& is) override;
 
     // make quadratic randomly +/- on each interval update
     void afterUpdateNextPoint() override;

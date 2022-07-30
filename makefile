@@ -27,4 +27,4 @@ color.o: $(COLOR_DEPS)
 	$(CC) $(CFLAGS) -c color.cpp
 
 clean:
-	rm -f squiggly main.o line.o color.o
+	rm -f squiggly main.o line.o color.o quadraticLine.o linearLine.o

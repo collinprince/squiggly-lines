@@ -19,7 +19,9 @@
 
 ### Anti-aliasing
 
-- implement some form of anti-aliasing for lines (possibly xialon wu's algo?)
+- implement some form of anti-aliasing for lines (possibly xiaolin wu's algo?)
+  - tried to adapt xiaolin wu's algo, but didn't really work well, implementation might
+    just be janky
 
 ### Future Lines
 

@@ -21,11 +21,14 @@ class Color {
 
     bool operator!=(const Color& rhs) const { return !(*this == rhs); }
 
-    const Color operator/(int rhs) const {
-        return Color(r_ / rhs, g_ / rhs, b_ / rhs);
+    const Color operator*(double rhs) const {
+        return Color(r_ * rhs, g_ * rhs, b_ * rhs);
     }
 
+    const Color operator/(double rhs) const { return *this * (1.0 / rhs); }
+
     friend Color const average(Color const& l, Color const& r);
+    friend Color constrain(Color const& c);
 
    private:
     int r_;
@@ -37,9 +40,10 @@ using ColorRow = std::vector<Color>;
 Color const average(Color const& l, Color const& r);
 void resetColorRow(ColorRow& row, const Color& defaultColor);
 
-static Color const Red = Color(255, 0, 0);
-static Color const Green = Color(0, 255, 0);
-static Color const Blue = Color(0, 0, 255);
+static Color const Red = Color(180, 0, 0);
+static Color const Green = Color(0, 180, 0);
+static Color const Blue = Color(0, 0, 180);
 static Color const White = Color(255, 255, 255);
+static Color const Black = Color(0, 0, 0);
 
 #endif

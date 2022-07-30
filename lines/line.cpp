@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 Line::Line(Point2 const& startPoint, Color const& color)
@@ -20,13 +21,41 @@ void Line::updateNextPoint(ImageSettings const& is) {
     afterUpdateNextPoint();
 }
 
-int Line::computeXGivenY(int y, ImageSettings const& is) {
+double Line::computeXGivenY(int y, ImageSettings const& is) {
     return formulaForX(y, is);
 }
 
 void Line::colorRowForLine(int y, ColorRow& colorRow, ImageSettings const& is) {
-    int x = computeXGivenY(y, is);
-    colorRow[x] = color_;
+    adaptedXiaolinWuAttempt(y, colorRow, is);
+}
+
+void Line::adaptedXiaolinWuAttempt(int y, ColorRow& colorRow,
+                                   ImageSettings const& is) {
+    auto x = computeXGivenY(y, is);
+
+    // adaptation of xiaolin wu's line algorithm
+    auto floorX = static_cast<int>(floor(x));
+    auto ceilX = static_cast<int>(ceil(x));
+
+    if (floorX == ceilX) {
+        colorRow[floorX] = color_;
+        return;
+    }
+
+    if (floorX >= 0) {
+        if (x - floorX < 0.01) {
+            colorRow[floorX] = color_;
+        } else {
+            colorRow[floorX] = constrain(color_ * (1 / (x - floorX)));
+        }
+    }
+    if (ceilX <= is.maxX()) {
+        if (x - floorX > 0.99) {
+            colorRow[ceilX] = color_;
+        } else {
+            colorRow[ceilX] = constrain(color_ * (1 / (ceilX - x)));
+        }
+    }
 }
 
 Point2 const Line::getRandomNextPoint(ImageSettings const& is) {
