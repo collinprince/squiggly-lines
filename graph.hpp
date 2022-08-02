@@ -7,35 +7,45 @@
 // scaling x and y to [0, 1] range
 class Graph {
    public:
+    // aliases
+    using PixelUnit = int;
+    using GraphUnit = double;
+    using PixelPoint = Point2<PixelUnit>;
+    using GraphPoint = Point2<GraphUnit>;
+
     explicit Graph(int xMax, int yMax) : xMax_(xMax), yMax_(yMax) {}
-    Point2<double> convertPixelPointToGraphPoint(Point2<int> const& p) const {
+    GraphPoint convertPixelPointToGraphPoint(PixelPoint const& p) const {
         return Point2<double>(convertPixelXToGraphX(p.x()),
                               convertPixelYToGraphY(p.y()));
     }
-    Point2<int> convertGraphPointToPixelPoint(Point2<double> const& p) const {
+    PixelPoint convertGraphPointToPixelPoint(GraphPoint const& p) const {
         return Point2<int>(convertGraphXToPixelX(p.x()),
                            convertGraphYToPixelY(p.y()));
     }
 
-    double convertPixelXToGraphX(int pixelX) const {
+    GraphUnit convertPixelXToGraphX(PixelUnit pixelX) const {
         return static_cast<double>(pixelX) / xMax_;
     }
 
-    double convertPixelYToGraphY(int pixelY) const {
+    GraphUnit convertPixelYToGraphY(PixelUnit pixelY) const {
         return static_cast<double>(pixelY) / yMax_;
     }
 
-    int convertGraphXToPixelX(double graphX) const {
+    PixelUnit convertGraphXToPixelX(GraphUnit graphX) const {
         return static_cast<int>(graphX * xMax_);
     }
 
-    int convertGraphYToPixelY(double graphY) const {
+    PixelUnit convertGraphYToPixelY(GraphUnit graphY) const {
         return static_cast<int>(graphY * yMax_);
     }
 
+    GraphUnit getPixelXUnitIncrement() const { return 1.0 / xMax_; }
+
+    GraphUnit getPixelYUnitIncrement() const { return 1.0 / yMax_; }
+
    private:
-    int xMax_;
-    int yMax_;
+    PixelUnit xMax_;
+    PixelUnit yMax_;
 };
 
 #endif

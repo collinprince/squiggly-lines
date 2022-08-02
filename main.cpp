@@ -6,12 +6,13 @@
 #include "lines/linearLine.hpp"
 #include "lines/quadraticLine.hpp"
 #include "shapes/circle.hpp"
+#include "shapes/rectangle.hpp"
 
 static int const Width = 500;
 static int const Height = 500;
 static int const MaxColor = 255;
 static int const NumLines = 30;
-static int const NumColors = 3;
+// static int const NumColors = 3;
 
 int main() {
     // seed random generator
@@ -49,12 +50,16 @@ int main() {
             std::make_unique<QuadraticLine>(startingPoint, color));
     }
 
-    Circle::GraphPoint point(0.5, 0.5);
-    Circle circle(graph, Green, point, 0.2);
+    Circle::GraphPoint point1(0.5, 0.5);
+    Rectangle::GraphPoint topLeft(0.2, 0.2);
+    Rectangle::GraphPoint bottomRight(0.8, 0.8);
+    std::vector<std::unique_ptr<Shape>> shapes;
+    shapes.emplace_back(std::make_unique<Circle>(graph, Green, point1, 0.2));
+    shapes.emplace_back(
+        std::make_unique<Rectangle>(graph, Blue, topLeft, bottomRight));
 
     for (int i = 0; i < Height; i += is.changeInY()) {
         // update line on each iteration
-        std::cerr << i << '\n';
         int count = 0;
         for (auto& l : lines) {
             l->updateNextPoint(is);
@@ -68,8 +73,11 @@ int main() {
                 l->colorRowForLine(j, colorRow, is);
             }
 
-            // color the circle
-            circle.colorRowForShape(j, colorRow, is);
+            // color the shapes
+            for (auto& s : shapes) {
+                s->colorRowForShape(j, colorRow, is);
+            }
+
             // draw each color in the row
             for (auto const& c : colorRow) {
                 std::cout << c.toPPMLine();

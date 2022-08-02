@@ -8,7 +8,7 @@ COLOR_DEPS = color.hpp color.cpp
 
 
 
-squiggly: main.o shapes/circle.hpp shapes/shape.hpp graph.hpp
+squiggly: main.o graph.hpp shapes/shape.hpp shapes/circle.hpp shapes/rectangle.hpp
 	$(CC) -o squiggly $(SQUIGGLY_DEPS)
 
 main.o: $(MAIN_DEPS) main.cpp

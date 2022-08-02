@@ -7,7 +7,6 @@
 
 class Circle : public Shape {
    public:
-    using GraphPoint = Point2<double>;
     explicit Circle(Graph const& graph, Color const& color,
                     GraphPoint const& centerPoint, double radius);
 
@@ -15,7 +14,7 @@ class Circle : public Shape {
     GraphPoint centerPoint_;
     double radius_;
 
-    std::vector<double> formulaForXValues(int pixelY,
+    std::vector<double> formulaForXValues(PixelUnit pixelY,
                                           ImageSettings const& is) override;
 };
 
@@ -23,7 +22,7 @@ Circle::Circle(Graph const& graph, Color const& color,
                GraphPoint const& centerPoint, double radius)
     : Shape(graph, color), centerPoint_(centerPoint), radius_(radius) {}
 
-std::vector<double> Circle::formulaForXValues(int pixelY,
+std::vector<double> Circle::formulaForXValues(Circle::PixelUnit pixelY,
                                               ImageSettings const& is) {
     // (x - x0)^2 + (y - y0)^2 == r^2
     // r^2 - (y - y0)^2 = (x - x0)^2 --> x = x0 +/- sqrt(r^2 - (y - y0)^2)

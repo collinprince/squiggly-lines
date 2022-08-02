@@ -9,15 +9,19 @@
 
 class Shape {
    public:
+    using GraphPoint = Graph::GraphPoint;
+    using GraphUnit = Graph::GraphUnit;
+    using PixelUnit = Graph::PixelUnit;
+
     explicit Shape(Graph const& graph, Color const& color)
         : graph_(graph), color_(color) {}
     virtual ~Shape() = default;
 
-    std::vector<double> computeXValuesGivenPixelY(int y,
-                                                  ImageSettings const& is) {
+    std::vector<GraphUnit> computeXValuesGivenPixelY(PixelUnit y,
+                                                     ImageSettings const& is) {
         return formulaForXValues(y, is);
     }
-    void colorRowForShape(int pixelY, ColorRow& colorRow,
+    void colorRowForShape(PixelUnit pixelY, ColorRow& colorRow,
                           ImageSettings const& is) {
         auto xValues = computeXValuesGivenPixelY(pixelY, is);
         for (auto const x : xValues) {

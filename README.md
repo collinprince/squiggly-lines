@@ -32,6 +32,8 @@
 
 ### Future Shapes
 
+- make the formula for x values less clunky
+  - clunkiness due to casting back and forth between pixel and graph units
 - add ellipses, squares, etc.
 - add filled versions of shapes
 
